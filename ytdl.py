@@ -226,8 +226,8 @@ class Ytdl:
                         self.download_subtitle_failed_signal = True
                     break
                 sleep(0.2)
-            except Exception, e:
-                print e
+            except Exception as e:
+                print (e)
                 self.download_subtitle_failed_signal = True
                 self.downloading_subtitle_signal = False
                 return
@@ -251,8 +251,8 @@ class Ytdl:
         try:
             versionsurl = "http://rg3.github.io/youtube-dl/update/versions.json"
             versions = json.loads(requests.get(versionsurl).text)
-        except Exception, e:
-            print e
+        except Exception as e:
+            print (e)
             self.updating_signal = False
             return
 
@@ -290,8 +290,8 @@ class Ytdl:
                             break
                         elif not self.has_password_signal:
                             self.password_requested_signal = True
-                except Exception, e:
-                    print e
+                except Exception as e:
+                    print (e)
                     break
                 sleep(0.5)
             if self.updated_signal:
@@ -308,4 +308,3 @@ class Ytdl:
         self.downloaded_partial_subtitle_signal = False
         self.download_subtitle_failed_signal = False
         self.subtitle_ready_signal = False
-
