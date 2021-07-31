@@ -1788,7 +1788,7 @@ class OptionsDialog(tkSimpleDialog.Dialog):
 
 
     def body(self, master):
-        config=ConfigParser.ConfigParser()
+        config=configparser.configparser()
         config.read(self.options_file)
 
         self._config = config
