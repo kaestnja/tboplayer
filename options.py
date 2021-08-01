@@ -1,7 +1,7 @@
 import csv
 import os
-#import configparser
-from six.moves import configparser
+import configparser
+#from six.moves import configparser
 #try:
 #    import configparser
 #except:
