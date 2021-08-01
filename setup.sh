@@ -118,9 +118,6 @@ addToAptInstall "python3-dev"
 addToAptInstall "python3-pil"
 addToAptInstall "python3-pip"
 addToAptInstall "python3-pil.imagetk"
-addToAptInstall "python3-configparser"
-
-
 #addToAptInstall "tkdnd"
 #addToAptInstall "python-setuptools"
 
