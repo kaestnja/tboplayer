@@ -106,6 +106,21 @@ addToAptInstall "python-gtk2"
 addToAptInstall "python-pexpect"
 addToAptInstall "python-pip"
 addToAptInstall "libav-tools"
+
+addToAptInstall "python3-gi"
+addToAptInstall "python3-gi-cairo"
+addToAptInstall "gir1.2-gtk-3.0"
+addToAptInstall "libgirepository1.0-dev"
+addToAptInstall "gcc"
+addToAptInstall "libcairo2-dev"
+addToAptInstall "pkg-config"
+addToAptInstall "python3-dev"
+addToAptInstall "python3-pil"
+addToAptInstall "python3-pip"
+addToAptInstall "python3-pil.imagetk"
+addToAptInstall "python3-configparser"
+
+
 #addToAptInstall "tkdnd"
 #addToAptInstall "python-setuptools"
 
