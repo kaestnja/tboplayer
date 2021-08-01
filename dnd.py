@@ -4,7 +4,7 @@ class DnD:
     Python wrapper for the tkDnD tk extension.
     source: https://mail.python.org/pipermail/tkinter-discuss/2005-July/000476.html
     '''
-    _subst_format = ('%A', '%a', '%T', '%W', '%X', '%Y', '%x', '%y','%D')
+    _subst_format = ('%A', '%a', '%T', '%W', '%X', '%Y', '%x', '%y', '%D')
     _subst_format_str = " ".join(_subst_format)
 
     def __init__(self, tkroot):
@@ -13,7 +13,8 @@ class DnD:
 
     def bindtarget(self, widget, type=None, sequence=None, command=None, priority=50):
         command = self._generate_callback(command, self._subst_format)
-        tkcmd = self._generate_tkcommand('bindtarget', widget, type, sequence, command, priority)
+        tkcmd = self._generate_tkcommand(
+            'bindtarget', widget, type, sequence, command, priority)
         res = self._tkroot.tk.eval(tkcmd)
         if type == None:
             res = res.split()
@@ -47,4 +48,3 @@ class DnD:
         for i in range(tcl_list_len):
             result.append(tk_inst("lindex $lst %d" % i))
         return result
-

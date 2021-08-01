@@ -4,8 +4,10 @@ import cStringIO
 import traceback
 import dbus
 
+
 class Logger(logging.Logger):
-    log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    log_formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     def __init__(self, name, level=logging.INFO, logFile=None):
         logging.Logger.__init__(self, name, level=logging.INFO)
@@ -37,14 +39,16 @@ class Logger(logging.Logger):
 # global logger
 log = Logger(__file__)
 
+
 class ExceptionCatcher:
     '''
-    Exception handler for Tkinter
-    when set to Tkinter.CallWrapper, catches unhandled exceptions thrown by window elements,
+    Exception handler for tkinter
+    when set to tkinter.CallWrapper, catches unhandled exceptions thrown by window elements,
     logs the exception and signals quit to the erroring window.
     Exiting tboplayer is preferable when errors occure rather than possibly having
     uncontrollable omxplayer running in fullscreen.
     '''
+
     def __init__(self, func, subst, widget):
         self.func = func
         self.subst = subst
@@ -62,4 +66,3 @@ class ExceptionCatcher:
         except Exception:
             log.logException()
             sys.exc_clear()
-
