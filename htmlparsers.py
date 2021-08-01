@@ -1,4 +1,5 @@
-from HTMLParser import HTMLParser
+#from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 class LyricWikiParser(HTMLParser):
 
@@ -30,4 +31,3 @@ class LyricWikiParser(HTMLParser):
             else:
                 c = unichr(int(name))
             self.result += c
-

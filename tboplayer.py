@@ -63,6 +63,7 @@ from playlist import *
 from dnd import *
 from dbusinterface import *
 from htmlparsers import *
+from html.parser import * #HTMLParser
 from scrolledframe import *
 from debugging import *
 
