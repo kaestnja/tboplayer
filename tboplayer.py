@@ -104,6 +104,8 @@ try:
         'tboplayer', localedir=sys.path[0] + '/locale', languages=[options.lang]).install()
 except:
     def _(x): return x
+    #maybe better:
+    #_ = lambda x:x
 
 
 # **************************
@@ -265,8 +267,7 @@ class TBOPlayer:
                         self.quit_sent_signal = False
                     if self.omx.end_play_signal:
                         self.monitor("            <end play signal received")
-                        self.monitor(
-                            "            <end detected at: " + str(self.omx.position))
+                        self.monitor("            <end detected at: " + str(self.omx.position))
                     self.play_state = self._OMX_ENDING
                     self.reset_progress_bar()
                     if self.media_is_video():
@@ -277,8 +278,7 @@ class TBOPlayer:
         elif self.play_state == self._OMX_ENDING:
             self.monitor("      State machine: " + self.play_state)
             # if spawned process has closed can change to closed state
-            self.monitor(
-                "      State machine : is omx process running -  " + str(self.omx.is_running()))
+            self.monitor("      State machine : is omx process running -  " + str(self.omx.is_running()))
             if self.omx.is_running() == False:
                 # if self.omx.end_play_signal==True:    #this is not as safe as process has closed.
                 self.monitor("            <omx process is dead")
@@ -298,8 +298,7 @@ class TBOPlayer:
         if self.paused == False:
             time_string = self.time_string(self.omx.position)
             if self.omx.timenf:
-                time_string += "\n/ " + \
-                    self.time_string(self.omx.timenf['duration'])
+                time_string += "\n/ " + self.time_string(self.omx.timenf['duration'])
             self.display_time.set(time_string)
             if abs(self.omx.position - self.progress_bar_var.get()) > self.progress_bar_step_rate:
                 self.set_progress_bar_step()
@@ -498,8 +497,7 @@ class TBOPlayer:
         elif self.ytdl_state == self._YTDL_STARTING:
             self.monitor("      Ytdl state machine: " + self.ytdl_state)
             if self.ytdl.start_signal == True:
-                self.monitor(
-                    "            <start play signal received from youtube-dl")
+                self.monitor("            <start play signal received from youtube-dl")
                 self.ytdl.start_signal = False
                 self.ytdl_state = self._YTDL_WORKING
                 self.monitor("      Ytdl state machine: "+self.ytdl_state)
@@ -523,8 +521,7 @@ class TBOPlayer:
         elif self.ytdl_state == self._YTDL_ENDING:
             self.ytdl.reset_processes()
             self.monitor("      Ytdl state machine: " + self.ytdl_state)
-            self.monitor(
-                "      Ytdl state machine: is process running - " + str(self.ytdl.is_running()))
+            self.monitor("      Ytdl state machine: is process running - " + str(self.ytdl.is_running()))
             self.ytdl_state = self._YTDL_CLOSED
             self.root.after(500, self.ytdl_state_machine)
 
@@ -552,16 +549,14 @@ class TBOPlayer:
     def treat_video_data(self, url, data):
         media_url = self._treat_video_data(data, data['extractor'])
         if not media_url and self.options.youtube_video_quality == "small":
-            media_url = self._treat_video_data(
-                data, data['extractor'], "medium")
+            media_url = self._treat_video_data(data, data['extractor'], "medium")
         if not media_url:
             media_url = data['url']
         tracks = self.playlist.waiting_tracks()
         if tracks:
             for track in tracks:
                 if track[1][0] == url:
-                    self.playlist.replace(
-                        track[0], [media_url, data['title'], url])
+                    self.playlist.replace(track[0], [media_url, data['title'], url])
                     if self.play_state == self._OMX_STARTING:
                         self.start_omx(media_url, skip_ytdl_check=True)
                     self.refresh_playlist_display()
@@ -572,8 +567,7 @@ class TBOPlayer:
         for entry in data['entries']:
             media_url = self._treat_video_data(entry, data['extractor'])
             if not media_url and self.options.youtube_video_quality == "small":
-                media_url = self._treat_video_data(
-                    entry, data['extractor'], "medium")
+                media_url = self._treat_video_data(entry, data['extractor'], "medium")
             if not media_url:
                 media_url = entry['url']
             self.playlist.append([media_url, entry['title'], ''])
@@ -610,8 +604,7 @@ class TBOPlayer:
                 tkMessageBox.showinfo("", _("Failed to update youtube-dl."))
         else:
             if self.ytdl.password_requested_signal and not self.ytdl.has_password_signal:
-                password = tkSimpleDialog.askstring("", _(
-                    "youtube-dl needs to be updated.\nPlease inform your password."), parent=self.root, show="*")
+                password = tkSimpleDialog.askstring("", _("youtube-dl needs to be updated.\nPlease inform your password."), parent=self.root, show="*")
                 if password:
                     self.ytdl.set_password(password)
                 else:
@@ -655,8 +648,7 @@ class TBOPlayer:
         # if self.media_is_video():
         if not self.options.forbid_windowed_mode and not self.options.full_screen and '--win' not in opts:
             mc = self.RE_COORDS.match(self.options.windowed_mode_coords)
-            mg = self.RE_RESOLUTION.match(
-                self.options.windowed_mode_resolution)
+            mg = self.RE_RESOLUTION.match(self.options.windowed_mode_resolution)
             if mc and mg:
                 w, h, x, y = [int(v) for v in mg.groups()+mc.groups()]
                 opts += ' --win %d,%d,%d,%d' % (x, y, x+w, y+h)
@@ -678,8 +670,7 @@ class TBOPlayer:
             self.monitor("            >Send stop to omx")
             self.omx.stop()
         else:
-            self.monitor(
-                "            !>stop not sent to OMX because track not playing")
+            self.monitor("            !>stop not sent to OMX because track not playing")
 
     def send_command(self, command):
 
@@ -689,8 +680,7 @@ class TBOPlayer:
             if self.dbus_connected and command in ('+', '=', '-'):
                 sleep(0.1)
                 try:
-                    self.set_volume_bar_step(
-                        int(self.vol2dB(self.omx.volume())+self.volume_normal_step))
+                    self.set_volume_bar_step(int(self.vol2dB(self.omx.volume())+self.volume_normal_step))
                 except Exception:
                     log.logException()
                     sys.exc_clear()
@@ -701,8 +691,7 @@ class TBOPlayer:
                 self.set_volume_bar_step(self.volume_var.get() + 3)
             elif command == '-':
                 self.set_volume_bar_step(self.volume_var.get() - 3)
-            self.monitor(
-                "            !>Send command: illegal control or track not playing")
+            self.monitor("            !>Send command: illegal control or track not playing")
             return False
 
     def send_special(self, command):
@@ -727,8 +716,7 @@ class TBOPlayer:
         if self.options.debug:
             log.setLogFile(self.options.log_file)
             log.enableLogging()
-            self.monitor('started logging to file "%s"' %
-                         (self.options.log_file,))
+            self.monitor('started logging to file "%s"' % (self.options.log_file,))
         else:
             log.disableLogging()
 
@@ -746,8 +734,7 @@ class TBOPlayer:
 
         self.root = tk.Tk()
 
-        icon_photo = tk.PhotoImage(file=os.path.dirname(
-            os.path.realpath(__file__)) + '/ico/48x48.png')
+        icon_photo = tk.PhotoImage(file=os.path.dirname(os.path.realpath(__file__)) + '/ico/48x48.png')
         self.root.call('wm', 'iconphoto', self.root._w, icon_photo)
 
         # self.root.iconphoto()
@@ -792,41 +779,32 @@ class TBOPlayer:
 
 # define menu
         menubar = Menu(self.root)
-        filemenu = Menu(menubar, tearoff=0,
-                        background="grey", foreground="black")
+        filemenu = Menu(menubar, tearoff=0,background="grey", foreground="black")
         menubar.add_cascade(label=_('Track'), menu=filemenu)
         filemenu.add_command(label=_('Add'), command=self.add_track)
         filemenu.add_command(label=_('Add Dir'), command=self.add_dir)
         filemenu.add_command(label=_('Add Dirs'), command=self.add_dirs)
         filemenu.add_command(label=_('Add URL'), command=self.add_url)
-        filemenu.add_command(label=_('Youtube search'),
-                             command=self.youtube_search)
+        filemenu.add_command(label=_('Youtube search'),command=self.youtube_search)
         filemenu.add_command(label=_('Remove'), command=self.remove_track)
         filemenu.add_command(label=_('Edit'), command=self.edit_track)
 
-        listmenu = Menu(menubar, tearoff=0,
-                        background="grey", foreground="black")
-        menubar.add_cascade(label=_('Playlists'), menu=listmenu)
-        listmenu.add_command(label=_('Open playlist'),
-                             command=self.open_list_dialog)
-        listmenu.add_command(label=_('Save playlist'), command=self.save_list)
-        listmenu.add_command(label=_('Load Youtube playlist'),
-                             command=self.load_youtube_playlist)
-        listmenu.add_command(label=_('Clear'), command=self.clear_list)
+        listmenu = Menu(menubar, tearoff=0, background="grey", foreground="black")
+        menubar.add_cascade(label=_('Playlists'),menu=listmenu)
+        listmenu.add_command(label=_('Open playlist'), command=self.open_list_dialog)
+        listmenu.add_command(label=_('Save playlist'),command=self.save_list)
+        listmenu.add_command(label=_('Load Youtube playlist'), command=self.load_youtube_playlist)
+        listmenu.add_command(label=_('Clear'),command=self.clear_list)
 
-        omxmenu = Menu(menubar, tearoff=0,
-                       background="grey", foreground="black")
+        omxmenu = Menu(menubar, tearoff=0, background="grey", foreground="black")
         menubar.add_cascade(label='OMX', menu=omxmenu)
-        omxmenu.add_command(label=_('Track Info'),
-                            command=self.show_omx_track_info)
+        omxmenu.add_command(label=_('Track Info'),command=self.show_omx_track_info)
 
-        optionsmenu = Menu(menubar, tearoff=0,
-                           background="grey", foreground="black")
+        optionsmenu = Menu(menubar, tearoff=0,background="grey", foreground="black")
         menubar.add_cascade(label=_('Options'), menu=optionsmenu)
         optionsmenu.add_command(label=_('Edit'), command=self.edit_options)
 
-        helpmenu = Menu(menubar, tearoff=0,
-                        background="grey", foreground="black")
+        helpmenu = Menu(menubar, tearoff=0,background="grey", foreground="black")
         menubar.add_cascade(label=_('Help'), menu=helpmenu)
         helpmenu.add_command(label=_('Help'), command=self.show_help)
         helpmenu.add_command(label=_('About'), command=self.about)
@@ -835,85 +813,68 @@ class TBOPlayer:
 
         # define buttons
         # add track button
-        Button(self.root, width=5, height=1, text=_('Add'),
-               foreground='black', command=self.add_track,
+        Button(self.root, width=5, height=1, text=_('Add'),foreground='black', command=self.add_track,
                background="light grey").grid(row=0, column=1, rowspan=2, sticky=N+W+E+S)
         # add dir button
-        Button(self.root, width=5, height=1, text=_('Add Dir'),
-               foreground='black', command=self.add_dir,
+        Button(self.root, width=5, height=1, text=_('Add Dir'),foreground='black', command=self.add_dir,
                background="light grey").grid(row=0, column=2, rowspan=2, sticky=N+W+E+S)
         # add url button
-        Button(self.root, width=5, height=1, text=_('Add URL'),
-               foreground='black', command=self.add_url,
+        Button(self.root, width=5, height=1, text=_('Add URL'),foreground='black', command=self.add_url,
                background="light grey").grid(row=0, column=3, rowspan=2, sticky=N+W+E+S)
 
         # open list button
-        Button(self.root, width=5, height=1, text=_('Open List'),
-               foreground='black', command=self.open_list_dialog,
+        Button(self.root, width=5, height=1, text=_('Open List'),foreground='black', command=self.open_list_dialog,
                background="light grey").grid(row=0, column=4, rowspan=2, sticky=N+W+E+S)
         # save list button
-        Button(self.root, width=5, height=1, text=_('Save List'),
-               foreground='black', command=self.save_list,
+        Button(self.root, width=5, height=1, text=_('Save List'),foreground='black', command=self.save_list,
                background='light grey').grid(row=0, column=5, rowspan=2, sticky=N+W+E+S)
         # clear list button;
-        Button(self.root, width=5, height=1, text=_('Clear List'),
-               foreground='black', command=self.clear_list,
+        Button(self.root, width=5, height=1, text=_('Clear List'),foreground='black', command=self.clear_list,
                background='light grey').grid(row=0, column=6, rowspan=2, sticky=N+W+E+S)
         # play/pause button
-        self.play_button = Button(self.root, width=5, height=1, text=_('Play'),
-                                  foreground='black', command=self.play_track,
+        self.play_button = Button(self.root, width=5, height=1, text=_('Play'), foreground='black', command=self.play_track,
                                   background="light grey")
         self.play_button.grid(row=7, column=1, sticky=N+W+E+S)
         # stop track button
-        Button(self.root, width=5, height=1, text=_('Stop'),
-               foreground='black', command=self.stop_track,
+        Button(self.root, width=5, height=1, text=_('Stop'),foreground='black', command=self.stop_track,
                background="light grey").grid(row=7, column=2, sticky=N+W+E+S)
         # previous track button
-        Button(self.root, width=5, height=1, text=_('Previous'),
-               foreground='black', command=self.skip_to_previous_track,
+        Button(self.root, width=5, height=1, text=_('Previous'),foreground='black', command=self.skip_to_previous_track,
                background="light grey").grid(row=7, column=3, sticky=N+W+E+S)
         # next track button
-        Button(self.root, width=5, height=1, text=_('Next'),
-               foreground='black', command=self.skip_to_next_track,
+        Button(self.root, width=5, height=1, text=_('Next'),foreground='black', command=self.skip_to_next_track,
                background="light grey").grid(row=7, column=4, sticky=N+W+E+S)
 
         # vol button
-        minusplus_button = Button(self.root, width=5, height=1, text='-  Vol +',
-                                  foreground='black', background='light grey')
+        minusplus_button = Button(self.root, width=5, height=1, text='-  Vol +',foreground='black', background='light grey')
         minusplus_button.grid(row=7, column=5, sticky=N+W+E+S)  # , sticky=E)
         minusplus_button.bind("<ButtonRelease-1>", self.volminusplus)
 
         # define display of file that is selected
         Label(self.root, font=('Comic Sans', 10),
-              fg='black', wraplength=400, height=2,
-              textvariable=self.display_selected_track_title,
+              fg='black', wraplength=400, height=2,textvariable=self.display_selected_track_title,
               background="grey").grid(row=2, column=1, columnspan=6, sticky=N+W+E)
 
         # define time/status display for selected track
         Label(self.root, font=('Comic Sans', 9),
-              fg='black', wraplength=100,
-              textvariable=self.display_time,
+              fg='black', wraplength=100,textvariable=self.display_time,
               background="grey").grid(row=2, column=6, columnspan=1, sticky=N+W+E+S)
 
 # define display of playlist
-        self.track_titles_display = Listbox(self.root, background="white", height=15,
-                                            foreground="black", takefocus=0)
-        self.track_titles_display.grid(
-            row=3, column=1, columnspan=7, rowspan=3, sticky=N+S+E+W)
+        self.track_titles_display = Listbox(self.root, background="white", height=15,foreground="black", takefocus=0)
+        self.track_titles_display.grid(row=3, column=1, columnspan=7, rowspan=3, sticky=N+S+E+W)
         self.track_titles_display.bind("<ButtonRelease-1>", self.select_track)
         self.track_titles_display.bind("<Delete>", self.remove_track)
         self.track_titles_display.bind("<Return>", self.key_return)
         self.track_titles_display.bind("<Double-1>", self.select_and_play)
 
 # scrollbar for displaylist
-        scrollbar = Scrollbar(
-            self.root, command=self.track_titles_display.yview, orient=tk.VERTICAL)
+        scrollbar = Scrollbar(self.root, command=self.track_titles_display.yview, orient=tk.VERTICAL)
         scrollbar.grid(row=3, column=6, rowspan=3, sticky=N+S+E)
         self.track_titles_display.config(yscrollcommand=scrollbar.set)
 
 # progress bar
-        self.style.configure("progressbar.Horizontal.TProgressbar",
-                             foreground='medium blue', background='medium blue')
+        self.style.configure("progressbar.Horizontal.TProgressbar",foreground='medium blue', background='medium blue')
         self.progress_bar = Progressbar(orient=HORIZONTAL, length=self.progress_bar_total_steps, mode='determinate',
                                         maximum=self.progress_bar_total_steps, variable=self.progress_bar_var,
                                         style="progressbar.Horizontal.TProgressbar")
@@ -923,8 +884,7 @@ class TBOPlayer:
         self.progress_bar_var.set(0)
 
 # volume bar, volume meter is 0.0 - 16.0, being normal volume 1.0
-        self.style.configure("volumebar.Horizontal.TProgressbar",
-                             foreground='cornflower blue', background='cornflower blue')
+        self.style.configure("volumebar.Horizontal.TProgressbar",foreground='cornflower blue', background='cornflower blue')
         self.volume_bar = Progressbar(orient=HORIZONTAL, length=self.volume_max, mode='determinate',
                                       maximum=self.volume_max, variable=self.volume_var,
                                       style="volumebar.Horizontal.TProgressbar")
@@ -965,8 +925,7 @@ class TBOPlayer:
             self.play_track()
 
         self.dnd = DnD(self.root)
-        self.dnd.bindtarget(self.root, 'text/uri-list',
-                            '<Drop>', self.add_drag_drop)
+        self.dnd.bindtarget(self.root, 'text/uri-list','<Drop>', self.add_drag_drop)
 
         if self.options.ytdl_update:
             self.ytdl.check_for_update()
@@ -987,8 +946,7 @@ class TBOPlayer:
 
     def edit_options(self):
         """edit the options then read them from file"""
-        eo = OptionsDialog(
-            self.root, self.options.options_file, _('Edit Options'))
+        eo = OptionsDialog(self.root, self.options.options_file, _('Edit Options'))
         self.options.read(self.options.options_file)
         self.ytdl.set_options(self.options)
         OMXPlayer.set_omx_location(self.options.omx_location)
@@ -1073,11 +1031,9 @@ class TBOPlayer:
             self.omx.misc['title'] and
             'artist' in self.omx.misc and
                 self.omx.misc['artist']):
-            track_title = self.omx.misc['artist'] + \
-                '-' + self.omx.misc['title']
+            track_title = self.omx.misc['artist'] + '-' + self.omx.misc['title']
 
-        self.autolyrics = AutoLyrics(
-            self.root, self.options.autolyrics_coords, self._save_autolyrics_coords, track_title)
+        self.autolyrics = AutoLyrics(self.root, self.options.autolyrics_coords, self._save_autolyrics_coords, track_title)
 
     def save_geometry(self, *sec):
         self.options.geometry = self.root.geometry()
@@ -1086,8 +1042,7 @@ class TBOPlayer:
     def _save_autolyrics_coords(self, *event):
         x = self.autolyrics.winfo_x()
         y = self.autolyrics.winfo_y()
-        self.options.autolyrics_coords = (
-            "+" if x >= 0 else "-")+str(x)+("+" if y >= 0 else "-")+str(y)
+        self.options.autolyrics_coords = ("+" if x >= 0 else "-")+str(x)+("+" if y >= 0 else "-")+str(y)
 
     def set_option(self, option, value):
         boolean = ["0", "1"]
@@ -1139,8 +1094,7 @@ class TBOPlayer:
 
     def set_progress_bar(self):
         try:
-            self.progress_bar_step_rate = self.omx.timenf['duration'] / \
-                self.progress_bar_total_steps
+            self.progress_bar_step_rate = self.omx.timenf['duration'] /self.progress_bar_total_steps
         except Exception:
             log.logException()
             sys.exc_clear()
