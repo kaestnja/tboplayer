@@ -83,7 +83,7 @@ import string
 import sys
 
 from tkinter import *
-from tttkintert(Progressbar, Style, Sizegrip)
+from ttk import ( Progressbar, Style, Sizegrip )
 from gtk.gdk import (screen_width, screen_height)
 import tkinter as tk
 import tkFileDialog
