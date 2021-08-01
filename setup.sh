@@ -11,7 +11,7 @@ DESKTOP_ENTRIES=($DESKTOP_PATH/tboplayer.desktop
 SUPPORTED_TYPES=('video/x-msvideo' 'video/quicktime' 'video/mp4' 'video/x-flv' 'video/x-matroska' 'audio/x-matroska'
               'video/3gpp' 'audio/x-aac' 'video/h264' 'video/h263' 'video/x-m4v' 'audio/midi'
               'audio/mid' 'audio/vnd.qcelp' 'audio/mpeg' 'video/mpeg' 'audio/rmf' 'audio/x-rmf'
-	      'audio/mp4' 'video/mj2' 'audio/x-tta' 'audio/tta' 'application/mp4' 'audio/ogg'
+	          'audio/mp4' 'video/mj2' 'audio/x-tta' 'audio/tta' 'application/mp4' 'audio/ogg'
               'video/ogg' 'audio/wav' 'audio/wave' 'audio/x-pn-aiff' 'audio/x-pn-wav' 'audio/x-wav'
               'audio/flac' 'audio/x-flac' 'video/h261' 'application/adrift' 'video/3gpp2' 'video/x-f4v'
               'application/ogg' 'audio/mpeg3' 'audio/x-mpeg-3' 'audio/x-gsm' 'audio/x-mpeg' 'audio/mod'
@@ -32,24 +32,24 @@ if [ "$1" == "uninstall" ]; then
     echo "Do you really wish to uninstall TBOPlayer? [Y/N]"
     read answer
     if [ "$answer" == "Y" ] || [ "$answer" == "y" ]; then
-	echo ""
+	    echo ""
         echo "* Removing TBOPlayer..."
         sudo rm -Rf $TBOPLAYER_PATH
         sudo rm $FAKE_BIN
-	rm "${DESKTOP_ENTRIES[0]}"
+	    rm "${DESKTOP_ENTRIES[0]}"
         sudo rm "${DESKTOP_ENTRIES[1]}"
         sudo update-desktop-database
         echo ""
-	echoGreen "ATENTION"
+	    echo "ATENTION"
         echo "Would you like to remove all of TBOPlayer dependencies too?"
-	echo "These may also be used by other programs and removing them can make these programs to stop working. [Y/N]"
+	    echo "These may also be used by other programs and removing them can make these programs to stop working. [Y/N]"
         read answer
         if [ "$answer" == "Y" ] || [ "$answer" == "y" ]; then
             echo ""
             echo "* Removing TBOPlayer dependencies..."
             sudo apt-get -y remove python-gobject-2 python-dbus python-tk python-gtk2 python-requests python-magic python-pexpect tkdnd >/dev/null 2>&1
             sudo rm -f /usr/local/bin/youtube-dl >/dev/null 2>&1
-	    pip uninstall youtube-search-python python-magic
+	        pip uninstall youtube-search-python python-magic
         fi
         echo ""
         echo "TBOPlayer has been uninstalled."
@@ -168,11 +168,11 @@ if [ $? -eq 1 ]; then
 else
     if [ "$YTDL_PATH" != "$YTDL_EXPECTED_PATH" ]; then
         echo ""
-	echoGreen "ATENTION"
+	    echo "ATENTION"
         echo "You have youtube-dl installed in a location different than expected."
-	echo "Do you want this setup to install youtube-dl in the expected path? [Y/N]"
-	echo ""
-	read answer
+	    echo "Do you want this setup to install youtube-dl in the expected path? [Y/N]"
+	    echo ""
+	    read answer
 	if [ "$answer" == "Y" ] || [ "$answer" == "y" ]; then
 	    sudo rm $YTDL_PATH
 	    installYoutubedl
@@ -225,7 +225,7 @@ sudo cp $DESKTOP_ENTRY "${DESKTOP_ENTRIES[1]}"
 sudo update-desktop-database
 
 echo ""
-echoGreen "Installation finished."
+echo "Installation finished."
 echo ""
 echo "If all went as expected, TBOPlayer is now installed in your system."
 echo "TBOPlayer can be found at the "$TBOPLAYER_PATH" directory."
