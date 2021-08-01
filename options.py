@@ -49,7 +49,7 @@ class Options:
     
     def read(self,filename):
         """reads options from options file to interface"""
-        config=configparser.configparser()
+        config=configparser.Configparser()
         config.read(filename)
         try:
             self.omx_audio_output = "-o " + config.get('config','audio',0)
@@ -91,7 +91,7 @@ class Options:
          
 
     def create(self,filename):
-        config=configparser.configparser()
+        config=configparser.Configparser()
         config.add_section('config')
         config.set('config','audio','alsa')
         config.set('config','subtitles','off')       
@@ -123,7 +123,7 @@ class Options:
             configfile.close()
 
     def save_state(self):
-        config=configparser.configparser()
+        config=configparser.Configparser()
         config.add_section('config')
         config.set('config','audio',self.omx_audio_output.replace("-o ",""))
         config.set('config','subtitles',"on" if "on" in self.omx_subtitles else "off")       
