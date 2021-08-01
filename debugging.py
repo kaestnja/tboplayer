@@ -1,6 +1,7 @@
 import sys
 import logging
-import cStringIO
+#import cStringIO
+from io import StringIO as cStringIO
 import traceback
 import dbus
 
