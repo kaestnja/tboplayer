@@ -61,7 +61,7 @@ class ExceptionCatcher:
             return apply(self.func, args)
         except dbus.DBusException:
             pass
-        except SystemExit, msg:
+        except SystemExit as msg:
             raise SystemExit, msg
         except Exception:
             log.logException()
