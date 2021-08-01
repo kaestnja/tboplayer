@@ -57,7 +57,13 @@ I think I might have fixed this but two tracks may play at the same time if you 
 """
 
 import requests
-from urllib import quote_plus
+#from urllib import quote_plus
+try:
+    from urllib import quote  # Python 2.X
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import quote  # Python 3+
+    from urllib.parse import quote_plus
 from options import *
 from ytdl import *
 from omxplayer import *
