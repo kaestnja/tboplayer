@@ -62,7 +62,7 @@ class ExceptionCatcher:
         except dbus.DBusException:
             pass
         except SystemExit as msg:
-            raise SystemExit, msg
+            raise SystemExit (msg)
         except Exception:
             log.logException()
             sys.exc_clear()
