@@ -1,10 +1,11 @@
 import csv
 import os
 #import configparser
-try:
-    import configparser
-except:
-    from six.moves import configparser
+from six.moves import configparser
+#try:
+#    import configparser
+#except:
+#    from six.moves import configparser
 # ***************************************
 # OPTIONS CLASS
 # ***************************************
@@ -49,7 +50,7 @@ class Options:
     
     def read(self,filename):
         """reads options from options file to interface"""
-        config=configparser.configparser()
+        config=configparser.Configparser()
         config.read(filename)
         try:
             self.omx_audio_output = "-o " + config.get('config','audio',0)
@@ -91,7 +92,7 @@ class Options:
          
 
     def create(self,filename):
-        config=configparser.configparser()
+        config=configparser.Configparser()
         config.add_section('config')
         config.set('config','audio','alsa')
         config.set('config','subtitles','off')       
