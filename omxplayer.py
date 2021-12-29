@@ -9,7 +9,15 @@ import pexpect
 import re
 import string
 import dbus
-import gobject
+
+try:
+    import gobject
+except:
+    import gi
+    gi.require_version('Gdk', '3.0')
+    gi.require_version('Gtk', '3.0')
+    from gi.repository import Gdk, Gtk, GObject
+
 import sys
 
 from threading import Thread
@@ -237,6 +245,3 @@ class OMXPlayer(object):
     @staticmethod
     def set_omx_location(location):
         OMXPlayer._LAUNCH_CMD = location + OMXPlayer._LAUNCH_ARGS_FORMAT
-
-
-
