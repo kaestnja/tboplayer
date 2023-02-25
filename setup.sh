@@ -144,6 +144,7 @@ function installYoutubedl {
     sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O $YTDL_EXPECTED_PATH >/dev/null 2>&1
     sudo chmod a+rx $YTDL_EXPECTED_PATH
 }
+#  https://github.com/yt-dlp/yt-dlp
 
 dpkg -l tkdnd >/dev/null 2>&1
 if [ $? -eq 1 ] ; then
