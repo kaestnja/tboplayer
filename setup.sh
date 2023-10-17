@@ -141,7 +141,8 @@ fi
 
 function installYoutubedl {
     echo "* Installing youtube-dl..."
-    sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O $YTDL_EXPECTED_PATH >/dev/null 2>&1
+    # old sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O $YTDL_EXPECTED_PATH >/dev/null 2>&1
+    sudo wget https://github.com/yt-dlp/yt-dlp/releases  -O $YTDL_EXPECTED_PATH >/dev/null 2>&1
     sudo chmod a+rx $YTDL_EXPECTED_PATH
 }
 #  https://github.com/yt-dlp/yt-dlp
@@ -162,7 +163,7 @@ fi
 YTDL_PATH="$( command -v /usr/local/bin/youtube-dl )"
 if [ $? -eq 1 ]; then
     echo "* Installing youtube-dl..."
-    installYoutubedl
+    #installYoutubedl
 else
     if [ "$YTDL_PATH" != "$YTDL_EXPECTED_PATH" ]; then
         echo ""
@@ -172,8 +173,8 @@ else
 	    echo ""
 	    read answer
 	if [ "$answer" == "Y" ] || [ "$answer" == "y" ]; then
-	    sudo rm $YTDL_PATH
-	    installYoutubedl
+	    #sudo rm $YTDL_PATH
+	    #installYoutubedl
 	fi
     else
         echo "* Updating youtube-dl..."
